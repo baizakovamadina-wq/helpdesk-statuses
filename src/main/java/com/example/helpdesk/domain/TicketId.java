@@ -1,4 +1,4 @@
-package com.example.helpdesk;
+package com.example.helpdesk.domain;
 
 public record TicketId(String value) {
 
