@@ -1,3 +1,4 @@
+
 package com.example.helpdesk;
 
 import com.example.helpdesk.config.Application;
@@ -18,11 +19,10 @@ class TicketServiceTest {
 
     @Test
     void shouldMoveTicketFromOpenToInProgress() {
-        TicketStatus result =
-                ticketService.move(
-                        TicketStatus.OPEN,
-                        TicketStatus.IN_PROGRESS
-                );
+        TicketStatus result = ticketService.move(
+                TicketStatus.OPEN,
+                TicketStatus.IN_PROGRESS
+        );
 
         assertEquals(TicketStatus.IN_PROGRESS, result);
     }

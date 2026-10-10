@@ -1,0 +1,6 @@
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/css
+    username: ${DB_USERNAME:css}
+    password: ${DB_PASSWORD}
