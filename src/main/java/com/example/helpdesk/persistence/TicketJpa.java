@@ -1,9 +1,11 @@
-
 package com.example.helpdesk.persistence;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
+
+import java.util.UUID;
+import java.util.Optional;
 
 @Repository
 public class TicketJpa {
@@ -11,12 +13,16 @@ public class TicketJpa {
     @PersistenceContext
     private EntityManager entityManager;
 
-    // Insert a new ticket into the database
     public void insert(TicketEntity ticket) {
         entityManager.persist(ticket);
     }
 
-    // Count tickets with a specific business key
+    public Optional<TicketEntity> findById(UUID id) {
+        return Optional.ofNullable(
+                entityManager.find(TicketEntity.class, id)
+        );
+    }
+
     public int count(String businessKey) {
         Long result = entityManager.createQuery(
                         "SELECT COUNT(t) FROM TicketEntity t " +
@@ -29,7 +35,6 @@ public class TicketJpa {
         return result.intValue();
     }
 
-    // Send pending SQL operations to PostgreSQL
     public void flush() {
         entityManager.flush();
     }

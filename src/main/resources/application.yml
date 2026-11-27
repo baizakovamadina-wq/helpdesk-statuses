@@ -1,9 +1,9 @@
-
 spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5432/css
-    username: css_user
-    password: 'CssHelpdesk2026!'
+  application:
+    name: helpdesk-statuses
+
+  profiles:
+    default: dev
 
   jpa:
     hibernate:
@@ -14,7 +14,6 @@ spring:
       hibernate:
         format_sql: true
 
-
   flyway:
     enabled: true
     locations: classpath:db/migration
@@ -22,4 +21,27 @@ spring:
     baseline-version: 1
     out-of-order: false
 
+server:
+  error:
+    include-stacktrace: never
+    include-message: never
+    include-binding-errors: never
+    include-exception: false
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+  endpoint:
+    health:
+      show-details: never
+
+  info:
+    env:
+      enabled: true
+
+info:
+  app:
+    name: Helpdesk Ticket System

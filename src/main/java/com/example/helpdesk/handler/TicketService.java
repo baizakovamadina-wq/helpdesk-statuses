@@ -1,9 +1,9 @@
-
 package com.example.helpdesk.handler;
 
 import com.example.helpdesk.domain.DuplicateTicket;
 import com.example.helpdesk.domain.Rule;
 import com.example.helpdesk.domain.TicketStatus;
+import com.example.helpdesk.domain.TicketNotFound;
 import com.example.helpdesk.persistence.TicketEntity;
 import com.example.helpdesk.persistence.TicketJpa;
 
@@ -24,7 +24,6 @@ public class TicketService {
         this.tickets = tickets;
     }
 
-    // Check whether a status transition is allowed
     public TicketStatus move(
             TicketStatus from,
             TicketStatus to
@@ -33,7 +32,6 @@ public class TicketService {
         return to;
     }
 
-    // Create a new ticket
     @Transactional
     public void register(
             UUID id,
@@ -52,7 +50,20 @@ public class TicketService {
         }
     }
 
-    // Insert two tickets with the same business key
+    @Transactional(readOnly = true)
+    public TicketResponse findById(UUID id) {
+
+        TicketEntity ticket = tickets.findById(id)
+                .orElseThrow(() -> new TicketNotFound(id));
+
+        return new TicketResponse(
+                ticket.getId(),
+                ticket.getBusinessKey(),
+                ticket.getStatus(),
+                ticket.getTitle()
+        );
+    }
+
     @Transactional
     public void insertTwice(String businessKey) {
         try {
@@ -79,7 +90,6 @@ public class TicketService {
         }
     }
 
-    // Convert ticket data into a JPA entity
     private TicketEntity createTicket(
             UUID id,
             String businessKey,

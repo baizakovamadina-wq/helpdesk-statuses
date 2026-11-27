@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/css
+    username: css_user
+    password: ${CSS_DEV_DB_PASSWORD}
+
+app:
+  downstream:
+    base-url: http://localhost:9090
+    timeout: 2s

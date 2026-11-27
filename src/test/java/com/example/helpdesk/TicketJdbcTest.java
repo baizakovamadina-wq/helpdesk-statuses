@@ -1,4 +1,3 @@
-
 package com.example.helpdesk;
 
 import com.example.helpdesk.config.Application;
@@ -7,13 +6,12 @@ import com.example.helpdesk.handler.TicketService;
 import com.example.helpdesk.persistence.TicketJdbc;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -30,32 +28,39 @@ class TicketJdbcTest {
     @Autowired
     private JdbcTemplate jdbc;
 
+    private String businessKey;
+
     @BeforeEach
-    void setup() throws Exception {
-        jdbc.execute("DROP TABLE IF EXISTS ticket");
+    void setup() {
+        businessKey = "TEST-" + UUID.randomUUID()
+                .toString().substring(0, 8);
+    }
 
-        String schema = Files.readString(
-                Path.of("src/main/resources/db/schema.sql")
+    @AfterEach
+    void cleanup() {
+        jdbc.update(
+                "DELETE FROM ticket WHERE business_key = ?",
+                businessKey
         );
-
-        jdbc.execute(schema);
     }
 
     @Test
     void secondStatementRollsBack() {
+
         assertThrows(
                 DuplicateTicket.class,
-                () -> service.insertTwice("HD-1042")
+                () -> service.insertTwice(businessKey)
         );
 
-        assertEquals(0, tickets.count("HD-1042"));
+        assertEquals(0, tickets.count(businessKey));
     }
 
     @Test
     void secondRequestKeepsTheFirst() {
+
         service.register(
                 UUID.randomUUID(),
-                "HD-1042",
+                businessKey,
                 "Printer problem"
         );
 
@@ -63,11 +68,11 @@ class TicketJdbcTest {
                 DuplicateTicket.class,
                 () -> service.register(
                         UUID.randomUUID(),
-                        "HD-1042",
+                        businessKey,
                         "Another printer problem"
                 )
         );
 
-        assertEquals(1, tickets.count("HD-1042"));
+        assertEquals(1, tickets.count(businessKey));
     }
 }

@@ -1,59 +1,58 @@
-# Helpdesk
+## Lab 4 — REST API and Configuration
 
-## Product
+In this lab, I added a REST API to the existing Helpdesk Ticket System using Spring Boot.
 
-We build a Helpdesk product.
+### Technologies
 
+- Java 21
+- Spring Boot 3.4.5
+- PostgreSQL
+- Flyway
+- Maven
+- Swagger / OpenAPI
+- Spring Boot Actuator
+- JUnit and Mockito
 
+### REST API endpoints
 
-People track support tickets.
-
-## Core item
-
-The core item is a Ticket.
-Each ticket has an ID and a status.
-
-## Status table
-
-| From | To | Result |
+| Method | Endpoint | Description |
 |---|---|---|
-| OPEN | IN_PROGRESS | Allowed |
-| IN_PROGRESS | RESOLVED | Allowed |
-| OPEN | RESOLVED | Forbidden |
-| RESOLVED | OPEN | Forbidden |
+| POST | /api/v1/tickets | Create a new ticket |
+| GET | /api/v1/tickets/{id} | Find a ticket by UUID |
 
-## Forbidden — why
+### HTTP response codes
 
-OPEN → RESOLVED is forbidden because a ticket should be worked on before it is resolved.
+- 201 — Ticket created
+- 200 — Ticket found
+- 400 — Invalid request
+- 404 — Ticket not found
+- 409 — Duplicate business key
+- 415 — Unsupported content type
+- 500 — Internal server error
 
-RESOLVED → OPEN is forbidden because a resolved ticket cannot be reopened in this simplified workflow.
+All API errors contain a code, message and correlation ID.
 
-## Package Diagram
+### Configuration
 
-```text
-                         config
-                      Application
-                          |
-                          |
-                       handler
-                    TicketService
-                          |
-                          | injects Rule
-                          v
-                        domain
-        +--------------------------------------+
-        |                                      |
-        |  TicketId                            |
-        |  TicketStatus                        |
-        |  TicketPolicy                        |
-        |                                      |
-        |  Rule                                |
-        |   ├── TransitionRule                 |
-        |   └── HoldRule                       |
-        |                                      |
-        |  (no Spring dependencies)            |
-        +--------------------------------------+
-             ^                    ^
-             |                    |
-            dto                 client
-        (JSON later)          (HTTP later)
+The application has two profiles: dev and prod. The dev profile is used for local development. The prod profile uses environment variables for database credentials.
+
+Downstream configuration is managed using ConfigurationProperties. The development URL is http://localhost:9090 with a timeout of 2 seconds.
+
+### Swagger and Actuator
+
+Swagger UI: http://localhost:8080/swagger-ui/index.html
+
+Available monitoring endpoints:
+
+- /actuator/health
+- /actuator/info
+
+Sensitive endpoints such as /actuator/env and /actuator/heapdump are not exposed.
+
+### Testing
+
+The project includes tests for ticket status transitions, database transactions, duplicate protection, REST API validation, error responses, correlation IDs and configuration properties.
+
+To verify the project, run:
+
+`mvn -q verify`
