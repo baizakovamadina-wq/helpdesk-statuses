@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Helpdesk | Support Center</title>
+    <link rel="stylesheet" href="/style.css">
+    <script src="/app.js" defer></script>
+</head>
+
+<body>
+
+<header class="hero">
+
+    <nav class="navbar">
+        <a class="brand" href="/">
+            <span class="logo">🎧</span>
+            Helpdesk
+        </a>
+
+        <div class="nav-actions">
+            <button class="requests-btn" data-panel="managePanel">
+                My requests
+            </button>
+
+            <button class="profile-btn" data-panel="loginPanel"
+                    aria-label="Your profile">
+                👤
+            </button>
+        </div>
+    </nav>
+
+    <div class="hero-content">
+
+        <h1>Welcome to the Support Center</h1>
+
+        <label for="searchInput">
+            What can we help you with?
+        </label>
+
+        <div class="search-box">
+            <input id="searchInput"
+                   placeholder="Search by ticket ID">
+
+            <button id="searchBtn" aria-label="Search">
+                🔍
+            </button>
+        </div>
+
+    </div>
+
+</header>
+
+<section class="announcement">
+    <div class="announcement-content">
+        <h3>Please select the appropriate service</h3>
+
+        <p>
+            Before creating a request, make sure you select
+            the service that matches your problem.
+        </p>
+    </div>
+</section>
+
+<main class="container">
+
+    <div class="section-heading">
+        <h2>All services</h2>
+        <span class="portal-label">Support portal</span>
+    </div>
+
+    <div class="services">
+
+        <button class="service-card" data-panel="createPanel">
+            <span class="service-icon technical">⚙</span>
+
+            <div>
+                <h3>Technical support</h3>
+                <p>Create a new support request or report an issue.</p>
+            </div>
+        </button>
+
+        <button class="service-card" data-panel="managePanel">
+            <span class="service-icon requests">▤</span>
+
+            <div>
+                <h3>My requests</h3>
+                <p>Find an existing ticket and check its status.</p>
+            </div>
+        </button>
+
+        <button class="service-card" data-panel="managePanel">
+            <span class="service-icon management">🛡</span>
+
+            <div>
+                <h3>Ticket management</h3>
+                <p>Manage ticket status with Senior permissions.</p>
+            </div>
+        </button>
+
+    </div>
+
+    <section class="account-bar">
+
+        <div class="account-info">
+            <span class="account-avatar">👤</span>
+
+            <div>
+                <h3 id="currentUser">Guest</h3>
+                <p id="connectionStatus">Not authenticated</p>
+            </div>
+        </div>
+
+        <div class="account-details">
+            <span>
+                Role: <strong id="currentRole">None</strong>
+            </span>
+
+            <span>
+                Session: <strong id="expiry">--</strong>
+            </span>
+        </div>
+
+        <div class="actions">
+            <button data-panel="loginPanel">Sign in</button>
+            <button id="logoutBtn" class="secondary">Logout</button>
+        </div>
+
+    </section>
+
+    <section id="loginPanel" class="panel" hidden>
+
+        <div class="panel-heading">
+            <h2>Sign in to Helpdesk</h2>
+            <button class="close-btn" data-close="loginPanel">×</button>
+        </div>
+
+        <p>Enter your account credentials to access the portal.</p>
+
+        <label for="username">Username</label>
+        <input id="username"
+               autocomplete="username"
+               placeholder="Enter your username">
+
+        <label for="password">Password</label>
+        <input id="password"
+               type="password"
+               autocomplete="current-password"
+               placeholder="Enter your password">
+
+        <div class="actions">
+            <button id="loginBtn">Sign in</button>
+            <button id="meBtn" class="secondary">
+                Check identity
+            </button>
+        </div>
+
+        <div class="demo-accounts">
+
+            <h3>Development accounts</h3>
+
+            <div class="demo-grid">
+                <div>
+                    <strong>Junior</strong>
+                    <p>Username: junior</p>
+                    <p>Password: junior123</p>
+                </div>
+
+                <div>
+                    <strong>Senior</strong>
+                    <p>Username: senior</p>
+                    <p>Password: senior123</p>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+    <section id="createPanel" class="panel" hidden>
+
+        <div class="panel-heading">
+            <h2>Technical support</h2>
+            <button class="close-btn" data-close="createPanel">×</button>
+        </div>
+
+        <p>Create a request for our technical support team.</p>
+
+        <label for="businessKey">Business key *</label>
+
+        <input id="businessKey"
+               placeholder="Example: LAB5-001">
+
+        <label for="ticketTitle">Summary *</label>
+
+        <input id="ticketTitle"
+               maxlength="120"
+               placeholder="Briefly describe your problem">
+
+        <button id="createBtn">Submit request</button>
+
+    </section>
+
+    <section id="managePanel" class="panel" hidden>
+
+        <div class="panel-heading">
+            <h2>Request details</h2>
+            <button class="close-btn" data-close="managePanel">×</button>
+        </div>
+
+        <label for="ticketId">Request ID</label>
+
+        <input id="ticketId"
+               placeholder="Enter ticket UUID">
+
+        <div class="actions">
+            <button id="findBtn">Find request</button>
+            <button id="startBtn" class="secondary">
+                Start progress
+            </button>
+        </div>
+
+        <div class="ticket-details">
+
+            <div>
+                <span>Business key</span>
+                <strong id="displayKey">--</strong>
+            </div>
+
+            <div>
+                <span>Summary</span>
+                <strong id="displayTitle">--</strong>
+            </div>
+
+            <div>
+                <span>Status</span>
+                <strong id="displayStatus">--</strong>
+            </div>
+
+        </div>
+
+        <p class="hint">
+            Only users with the SENIOR role can start progress.
+        </p>
+
+    </section>
+
+    <section class="permissions">
+
+        <h2>Role permissions</h2>
+
+        <table>
+            <thead>
+            <tr>
+                <th>Permission</th>
+                <th>Junior</th>
+                <th>Senior</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr>
+                <td>Create request</td>
+                <td class="allowed">Allowed</td>
+                <td class="allowed">Allowed</td>
+            </tr>
+
+            <tr>
+                <td>View request</td>
+                <td class="allowed">Allowed</td>
+                <td class="allowed">Allowed</td>
+            </tr>
+
+            <tr>
+                <td>Start progress</td>
+                <td class="forbidden">Forbidden</td>
+                <td class="allowed">Allowed</td>
+            </tr>
+            </tbody>
+        </table>
+
+    </section>
+
+    <details class="api-panel" open>
+
+        <summary>API Response — Security Demonstration</summary>
+
+        <div id="responseStatus">
+            Waiting for request...
+        </div>
+
+        <pre id="responseBody">No response yet.</pre>
+
+    </details>
+
+</main>
+
+<footer>
+    <p>Helpdesk Service Management</p>
+    <p>CSS-3008 · Spring Boot · PostgreSQL · JWT Security</p>
+</footer>
+
+</body>
+</html>

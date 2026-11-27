@@ -7,4 +7,9 @@ spring:
 app:
   downstream:
     base-url: ${CSS_DOWNSTREAM_URL}
-    timeout: ${CSS_DOWNSTREAM_TIMEOUT:2s}
+    timeout: 2s
+
+  jwt:
+    secret: ${CSS_JWT_SECRET}
+    issuer: helpdesk-statuses
+    ttl: 15m

@@ -1,14 +1,21 @@
 package com.example.helpdesk.config;
 
 import com.example.helpdesk.persistence.TicketEntity;
+import com.example.helpdesk.security.JwtProperties;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
-@SpringBootApplication(scanBasePackages = "com.example.helpdesk")
+@SpringBootApplication(
+        scanBasePackages = "com.example.helpdesk"
+)
 @EntityScan(basePackageClasses = TicketEntity.class)
-@EnableConfigurationProperties(DownstreamProperties.class)
+@EnableConfigurationProperties({
+        DownstreamProperties.class,
+        JwtProperties.class
+})
 public class Application {
 
     public static void main(String[] args) {

@@ -2,12 +2,19 @@ package com.example.helpdesk.handler;
 
 import com.example.helpdesk.domain.DuplicateTicket;
 import com.example.helpdesk.domain.TicketNotFound;
+
 import jakarta.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.access.AccessDeniedException;
+
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -40,6 +47,7 @@ public class GlobalExceptionHandler {
             String message,
             HttpServletRequest request
     ) {
+
         return ResponseEntity.status(status)
                 .body(new ApiError(
                         code,
@@ -48,17 +56,45 @@ public class GlobalExceptionHandler {
                 ));
     }
 
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<ApiError> authenticationError(
+            AuthenticationException ex,
+            HttpServletRequest request
+    ) {
+
+        return error(
+                HttpStatus.UNAUTHORIZED,
+                "UNAUTHENTICATED",
+                "bad username or password",
+                request
+        );
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ApiError> accessDenied(
+            AccessDeniedException ex,
+            HttpServletRequest request
+    ) {
+
+        return error(
+                HttpStatus.FORBIDDEN,
+                "FORBIDDEN",
+                "not allowed for your role",
+                request
+        );
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ApiError> validation(
+    public ResponseEntity<ApiError> validationError(
             MethodArgumentNotValidException ex,
             HttpServletRequest request
     ) {
-        var fieldError = ex.getBindingResult().getFieldError();
 
-        String message = fieldError == null
-                ? "Invalid request"
-                : fieldError.getField() + " "
-                + fieldError.getDefaultMessage();
+        var field = ex.getBindingResult().getFieldError();
+
+        String message = field == null
+                ? "validation failed"
+                : field.getField() + " " + field.getDefaultMessage();
 
         return error(
                 HttpStatus.BAD_REQUEST,
@@ -69,10 +105,11 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(TicketNotFound.class)
-    public ResponseEntity<ApiError> notFound(
+    public ResponseEntity<ApiError> ticketNotFound(
             TicketNotFound ex,
             HttpServletRequest request
     ) {
+
         return error(
                 HttpStatus.NOT_FOUND,
                 "NOT_FOUND",
@@ -82,10 +119,11 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(DuplicateTicket.class)
-    public ResponseEntity<ApiError> duplicate(
+    public ResponseEntity<ApiError> duplicateTicket(
             DuplicateTicket ex,
             HttpServletRequest request
     ) {
+
         return error(
                 HttpStatus.CONFLICT,
                 "DUPLICATE",
@@ -95,10 +133,11 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    public ResponseEntity<ApiError> invalidId(
+    public ResponseEntity<ApiError> invalidUuid(
             MethodArgumentTypeMismatchException ex,
             HttpServletRequest request
     ) {
+
         return error(
                 HttpStatus.BAD_REQUEST,
                 "VALIDATION",
@@ -112,6 +151,7 @@ public class GlobalExceptionHandler {
             HttpMessageNotReadableException ex,
             HttpServletRequest request
     ) {
+
         return error(
                 HttpStatus.BAD_REQUEST,
                 "VALIDATION",
@@ -121,10 +161,11 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
-    public ResponseEntity<ApiError> unsupported(
+    public ResponseEntity<ApiError> unsupportedMediaType(
             HttpMediaTypeNotSupportedException ex,
             HttpServletRequest request
     ) {
+
         return error(
                 HttpStatus.UNSUPPORTED_MEDIA_TYPE,
                 "UNSUPPORTED",
@@ -138,6 +179,7 @@ public class GlobalExceptionHandler {
             NoResourceFoundException ex,
             HttpServletRequest request
     ) {
+
         return error(
                 HttpStatus.NOT_FOUND,
                 "NOT_FOUND",
@@ -146,11 +188,26 @@ public class GlobalExceptionHandler {
         );
     }
 
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<ApiError> invalidTransition(
+            IllegalStateException ex,
+            HttpServletRequest request
+    ) {
+
+        return error(
+                HttpStatus.CONFLICT,
+                "INVALID_TRANSITION",
+                "Ticket status transition is not allowed",
+                request
+        );
+    }
+
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiError> unexpected(
+    public ResponseEntity<ApiError> unexpectedError(
             Exception ex,
             HttpServletRequest request
     ) {
+
         String id = correlationId(request);
 
         log.error("Unexpected error. Correlation ID: {}", id, ex);

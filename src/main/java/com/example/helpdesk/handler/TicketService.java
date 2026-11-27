@@ -7,7 +7,11 @@ import com.example.helpdesk.domain.TicketNotFound;
 import com.example.helpdesk.persistence.TicketEntity;
 import com.example.helpdesk.persistence.TicketJpa;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +19,9 @@ import java.util.UUID;
 
 @Service
 public class TicketService {
+
+    private static final Logger log =
+            LoggerFactory.getLogger(TicketService.class);
 
     private final Rule rule;
     private final TicketJpa tickets;
@@ -55,6 +62,41 @@ public class TicketService {
 
         TicketEntity ticket = tickets.findById(id)
                 .orElseThrow(() -> new TicketNotFound(id));
+
+        return new TicketResponse(
+                ticket.getId(),
+                ticket.getBusinessKey(),
+                ticket.getStatus(),
+                ticket.getTitle()
+        );
+    }
+
+    @PreAuthorize("hasRole('SENIOR')")
+    @Transactional
+    public TicketResponse start(UUID id, String actor) {
+
+        TicketEntity ticket = tickets.findById(id)
+                .orElseThrow(() -> new TicketNotFound(id));
+
+        TicketStatus currentStatus =
+                TicketStatus.valueOf(ticket.getStatus());
+
+        TicketStatus newStatus = move(
+                currentStatus,
+                TicketStatus.IN_PROGRESS
+        );
+
+        ticket.setStatus(newStatus.name());
+
+        tickets.flush();
+
+        log.info(
+                "Ticket {} changed from {} to {} by {}",
+                id,
+                currentStatus,
+                newStatus,
+                actor
+        );
 
         return new TicketResponse(
                 ticket.getId(),
