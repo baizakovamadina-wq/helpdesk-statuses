@@ -1,0 +1,651 @@
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --orange: #f2a544;
+    --cream: #fcedd9;
+    --background: #f1f2f4;
+    --white: #ffffff;
+    --text: #172b4d;
+    --muted: #5e6c84;
+    --blue: #0052cc;
+    --border: #dfe1e6;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--background);
+    color: var(--text);
+    font-size: 15px;
+}
+
+button,
+input {
+    font-family: inherit;
+    font-size: 15px;
+}
+
+button {
+    cursor: pointer;
+    transition: background 0.2s, box-shadow 0.2s;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+/* Orange header */
+
+.hero {
+    background: var(--orange);
+    min-height: 400px;
+    color: #242424;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 28px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: #292929;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.logo {
+    font-size: 32px;
+}
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.requests-btn {
+    background: #392e22;
+    color: #ffffff;
+    border: 2px solid white;
+    border-radius: 30px;
+    padding: 12px 22px;
+}
+
+.requests-btn:hover {
+    background: #514132;
+}
+
+.profile-btn {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    border: 2px solid white;
+    background: #f4f4f4;
+    font-size: 23px;
+    padding: 0;
+}
+
+/* Welcome and search */
+
+.hero-content {
+    max-width: 850px;
+    margin: 0 auto;
+    padding: 135px 20px 50px;
+}
+
+.hero-content h1 {
+    font-size: 30px;
+    font-weight: 600;
+    margin: 0 0 28px;
+}
+
+.hero-content label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 500;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    background: white;
+    border: 2px solid #2684ff;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.search-box input {
+    flex: 1;
+    width: 100%;
+    border: none;
+    padding: 13px 16px;
+    font-size: 17px;
+    background: white;
+    outline: none;
+    margin: 0;
+}
+
+.search-box button {
+    background: white;
+    border: none;
+    padding: 10px 18px;
+    font-size: 20px;
+}
+
+/* Announcement */
+
+.announcement {
+    background: var(--cream);
+    padding: 28px 20px;
+}
+
+.announcement-content {
+    max-width: 810px;
+    margin: auto;
+}
+
+.announcement h3 {
+    margin: 0 0 5px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.announcement p {
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* Main portal */
+
+.container {
+    max-width: 1280px;
+    margin: auto;
+    padding: 60px 24px;
+}
+
+.section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.section-heading h2 {
+    font-size: 24px;
+    font-weight: 500;
+    margin: 0;
+}
+
+.portal-label {
+    background: white;
+    border: 1px solid #a5adba;
+    padding: 12px 18px;
+    border-radius: 4px;
+    color: var(--muted);
+}
+
+/* Service cards */
+
+.services {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+}
+
+.service-card {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    min-height: 168px;
+    padding: 28px;
+    background: white;
+    border: 1px solid var(--border);
+    border-bottom: 2px solid #c1c7d0;
+    border-radius: 5px;
+    text-align: left;
+    color: var(--text);
+}
+
+.service-card:hover {
+    background: #fafbfc;
+    border-color: #2684ff;
+    box-shadow: 0 4px 14px rgba(9, 30, 66, 0.12);
+}
+
+.service-card h3 {
+    color: var(--blue);
+    font-size: 18px;
+    font-weight: 500;
+    margin: 0 0 7px;
+}
+
+.service-card p {
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.service-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    font-size: 34px;
+}
+
+.technical {
+    background: #e3faf4;
+    color: #16a085;
+}
+
+.requests {
+    background: #deebff;
+    color: #0052cc;
+}
+
+.management {
+    background: #fff0d5;
+    color: #d18b20;
+}
+
+/* Account information */
+
+.account-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 24px;
+    margin-top: 32px;
+}
+
+.account-info {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.account-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #ebecf0;
+    font-size: 24px;
+}
+
+.account-info h3 {
+    margin: 0 0 5px;
+    font-size: 17px;
+}
+
+.account-info p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.account-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    font-size: 14px;
+}
+
+/* Forms and panels */
+
+.panel {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 32px;
+    margin-top: 25px;
+}
+
+.panel-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.panel-heading h2 {
+    margin: 0;
+    font-size: 23px;
+    font-weight: 500;
+}
+
+.panel > p {
+    color: var(--muted);
+    line-height: 1.6;
+}
+
+.panel label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    margin: 20px 0 7px;
+}
+
+.panel input {
+    display: block;
+    width: 100%;
+    max-width: 650px;
+    padding: 12px 14px;
+    border: 2px solid var(--border);
+    border-radius: 4px;
+    background: #fafbfc;
+    color: var(--text);
+    margin-bottom: 20px;
+    outline: none;
+}
+
+.panel input:focus {
+    border-color: #2684ff;
+    background: white;
+}
+
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.panel button,
+.account-bar button {
+    background: var(--blue);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 11px 20px;
+    font-weight: 500;
+}
+
+.panel button:hover,
+.account-bar button:hover {
+    background: #0747a6;
+}
+
+button.secondary {
+    background: #ebecf0;
+    color: var(--text);
+}
+
+button.secondary:hover {
+    background: #dfe1e6;
+}
+
+.panel button.close-btn {
+    background: transparent;
+    color: var(--muted);
+    font-size: 26px;
+    padding: 4px 10px;
+}
+
+.panel button.close-btn:hover {
+    background: #ebecf0;
+}
+
+button:focus-visible {
+    outline: 3px solid #2684ff;
+    outline-offset: 3px;
+}
+
+/* Development accounts */
+
+.demo-accounts {
+    margin-top: 25px;
+    padding: 20px;
+    background: #f4f5f7;
+    border-radius: 5px;
+}
+
+.demo-accounts h3 {
+    margin: 0 0 15px;
+    font-size: 16px;
+}
+
+.demo-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.demo-grid > div {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 16px;
+}
+
+.demo-grid p {
+    margin: 7px 0 0;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+/* Ticket information */
+
+.ticket-details {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 25px;
+    padding: 20px;
+    background: #f4f5f7;
+    border-radius: 5px;
+}
+
+.ticket-details span {
+    display: block;
+    color: var(--muted);
+    font-size: 12px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+
+.ticket-details strong {
+    overflow-wrap: anywhere;
+}
+
+#displayStatus {
+    display: inline-block;
+    background: #deebff;
+    color: #0747a6;
+    border-radius: 4px;
+    padding: 5px 10px;
+    font-size: 13px;
+}
+
+.hint {
+    font-size: 13px;
+    color: var(--muted);
+}
+
+/* Role permissions */
+
+.permissions {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    margin-top: 25px;
+    padding: 25px;
+}
+
+.permissions h2 {
+    font-size: 20px;
+    font-weight: 500;
+    margin: 0 0 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 14px;
+    border-bottom: 1px solid var(--border);
+    text-align: left;
+}
+
+th {
+    background: #f4f5f7;
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.allowed {
+    color: #00875a;
+    font-weight: 500;
+}
+
+.forbidden {
+    color: #de350b;
+    font-weight: 500;
+}
+
+/* API response */
+
+.api-panel {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    margin-top: 25px;
+    padding: 25px;
+}
+
+.api-panel summary {
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+#responseStatus {
+    margin: 20px 0 12px;
+    padding: 12px 15px;
+    border-radius: 4px;
+    background: #ebecf0;
+    font-weight: 600;
+}
+
+#responseStatus.success {
+    background: #e3fcef;
+    color: #006644;
+}
+
+#responseStatus.error {
+    background: #ffebe6;
+    color: #bf2600;
+}
+
+#responseBody {
+    background: #172b4d;
+    color: #e3eaf5;
+    padding: 20px;
+    border-radius: 5px;
+    font-size: 13px;
+    line-height: 1.6;
+    min-height: 100px;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    overflow-x: auto;
+}
+
+/* Footer */
+
+footer {
+    text-align: center;
+    padding: 30px 20px;
+    color: var(--muted);
+    font-size: 13px;
+    border-top: 1px solid var(--border);
+}
+
+footer p {
+    margin: 6px 0;
+}
+
+/* Responsive design */
+
+@media (max-width: 900px) {
+
+    .services {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .service-card {
+        min-height: 120px;
+    }
+
+    .hero-content {
+        padding-top: 100px;
+    }
+
+    .container {
+        padding: 35px 20px;
+    }
+}
+
+@media (max-width: 600px) {
+
+    .navbar {
+        padding: 12px 16px;
+    }
+
+    .brand {
+        font-size: 18px;
+    }
+
+    .hero-content h1 {
+        font-size: 25px;
+    }
+
+    .hero {
+        min-height: 350px;
+    }
+
+    .hero-content {
+        padding-top: 80px;
+    }
+
+    .demo-grid,
+    .ticket-details {
+        grid-template-columns: 1fr;
+    }
+
+    .panel {
+        padding: 20px;
+    }
+
+    .account-details {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    th,
+    td {
+        padding: 10px;
+        font-size: 12px;
+    }
+}
